@@ -1,0 +1,32 @@
+--- src/lib9/goos.c.orig	2010-05-14 21:49:35.762193919 -0700
++++ src/lib9/goos.c	2010-05-14 21:52:01.361944978 -0700
+@@ -19,19 +19,26 @@
+ char*
+ getgoos(void)
+ {
+-	return defgetenv("GOOS", GOOS);
++	return "linux";
+ }
+ 
+ char*
+ getgoarch(void)
+ {
+-	return defgetenv("GOARCH", GOARCH);
++	(void)defgetenv;
++	return "__GOARCH__";
+ }
+ 
+ char*
+ getgoroot(void)
+ {
+-	return defgetenv("GOROOT", GOROOT);
++	char *p;
++	
++	p = getenv("GOROOT");
++	if(p == nil || p[0] == '\0')
++		p = "__GOROOT__";
++	
++	return p;
+ }
+ 
+ char*

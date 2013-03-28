@@ -4,7 +4,7 @@ all: download
 
 download:
 	if [ ! -f go1.0.3.src.tar.gz ]; then \
-	  bash download.sh \
+	  bash download.sh; \
 	fi
 
 rpm: rpms

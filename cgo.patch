@@ -1,0 +1,15 @@
+--- src/cmd/go/build.go.orig	2013-04-24 13:03:42.489998612 -0400
++++ src/cmd/go/build.go	2013-04-24 13:05:14.191998312 -0400
+@@ -1428,9 +1428,9 @@
+ var cgoRe = regexp.MustCompile(`[/\\:]`)
+ 
+ func (b *builder) cgo(p *Package, cgoExe, obj string, gccfiles []string) (outGo, outObj []string, err error) {
+-	if goos != toolGOOS {
+-		return nil, nil, errors.New("cannot use cgo when compiling for a different operating system")
+-	}
++	//if goos != toolGOOS {
++	//	return nil, nil, errors.New("cannot use cgo when compiling for a different operating system")
++	//}
+ 
+ 	cgoCFLAGS := stringList(envList("CGO_CFLAGS"), p.CgoCFLAGS)
+ 	cgoLDFLAGS := stringList(envList("CGO_LDFLAGS"), p.CgoLDFLAGS)

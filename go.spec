@@ -21,6 +21,7 @@ Source0:	http://go.googlecode.com/files/%{name}%{version}.src.tar.gz
 Source1:	golang-crosscompile.tar.gz
 # Patch away the need for environment variables:
 Patch0:		go-goos.c-no-envvars.diff
+Patch1:		cgo.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	ed
@@ -56,6 +57,7 @@ Go is a systems programming language that aims to be both fast and convenient.
 %prep
 %setup -q -n "go"
 #%patch0
+%patch1
 %setup -T -D -a 1 -n "go"
 %ifarch %ix86
 	%global GOARCH 386

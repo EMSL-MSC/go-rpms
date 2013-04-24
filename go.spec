@@ -29,6 +29,25 @@ BuildRequires:	bison
 
 ExclusiveArch: %ix86 x86_64
 
+%if 0%{?_with_windows:1}
+	%global use_windows 1
+%else
+	%if 0%{?_without_windows:1}
+		%global use_windows 0
+	%else
+		%if %(test x`echo "%{dist}" | cut -c1-3` = 'x.fc' && echo 1 || echo 0)
+			%global use_windows 1
+		%else
+			%global use_windows 0
+		%endif
+	%endif
+%endif
+
+%if %{use_windows}
+%global mingw32_root /usr/i686-w64-mingw32/sys-root/mingw
+BuildRequires: mingw32-gcc
+%endif
+
 
 %package	vim
 Summary:	go syntax files for vim
@@ -138,6 +157,17 @@ rm -f %{buildroot}/%{_bindir}/{hgpatch,quietgcc}
 
 find %{buildroot}/%{_libdir}/go/pkg/linux_amd64 -name '*.a' | xargs chmod 0666
 
+mkdir -p %{buildroot}/%{_datadir}/go/crosscompiler/windows_386
+for x in /usr/bin/i686-w64-mingw32-*; do ln -s $x %{buildroot}/%{_datadir}/go/crosscompiler/windows_386/`echo $x | sed 's:/usr/bin/i686-w64-mingw32-::'`; done
+rm %{buildroot}/%{_datadir}/go/crosscompiler/windows_386/gcc
+cat > %{buildroot}/%{_datadir}/go/crosscompiler/windows_386/gcc <<"EOF"
+#!/bin/bash
+/usr/bin/i686-w64-mingw32-gcc $CROSSCOMPILE_CFLAGS $*
+exit $?
+EOF
+chmod +x %{buildroot}/%{_datadir}/go/crosscompiler/windows_386/gcc
+#FIXME Yeah, lame I know.
+sed -i 's/echo 0/echo 1/g' %{buildroot}/%{_datadir}/go/crosscompiler/crosscompile.bash
 
 %clean
 rm -rf %{buildroot}

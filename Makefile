@@ -21,4 +21,9 @@ mock: download
 	mkdir -p packages/"$(MOCKDIST)"/bin
 	$(MOCK) -r "$(MOCKDIST)" $(MOCKOPTIONS) --buildsrpm --spec go.spec --sources "`pwd`"
 	mv "/var/lib/mock/$(MOCKDIST)/result/"*.src.rpm packages/"$(MOCKDIST)"/srpms/
-	$(MOCK) $(MOCKOPTIONS) -r "$(MOCKDIST)" --result "$(CURDIR)"/packages/"$(MOCKDIST)"/bin "$(CURDIR)"/packages/"$(MOCKDIST)"/srpms/*.src.rpm
+	$(MOCK) $(MOCKOPTIONS) -r "$(MOCKDIST)" --result "$(CURDIR)"/packages/"$(MOCKDIST)"/bin "$(CURDIR)"/packages/"$(MOCKDIST)"/srpms/*.src.rpm; \
+	res=$$?; \
+	if [ $$res -ne 0 ]; then \
+		cat "$(CURDIR)"/packages/"$(MOCKDIST)"/bin/build.log; \
+		exit $$res; \
+	fi

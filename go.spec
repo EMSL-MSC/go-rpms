@@ -157,6 +157,7 @@ rm -f %{buildroot}/%{_bindir}/{hgpatch,quietgcc}
 
 find %{buildroot}/%{_libdir}/go/pkg/linux_amd64 -name '*.a' | xargs chmod 0666
 
+%if %{use_windows}
 mkdir -p %{buildroot}/%{_datadir}/go/crosscompiler/windows_386
 for x in /usr/bin/i686-w64-mingw32-*; do ln -s $x %{buildroot}/%{_datadir}/go/crosscompiler/windows_386/`echo $x | sed 's:/usr/bin/i686-w64-mingw32-::'`; done
 rm %{buildroot}/%{_datadir}/go/crosscompiler/windows_386/gcc
@@ -166,6 +167,7 @@ cat > %{buildroot}/%{_datadir}/go/crosscompiler/windows_386/gcc <<"EOF"
 exit $?
 EOF
 chmod +x %{buildroot}/%{_datadir}/go/crosscompiler/windows_386/gcc
+%endif
 #FIXME Yeah, lame I know.
 sed -i 's/echo 0/echo 1/g' %{buildroot}/%{_datadir}/go/crosscompiler/crosscompile.bash
 

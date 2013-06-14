@@ -115,7 +115,9 @@ LC_ALL=C PATH="$PATH:$GOBIN" ./make.bash
 
 cd ..
 PATH=$PATH:$GOBIN
+%if %{use_windows}
 /bin/bash -c '. golang-crosscompile/crosscompile.bash; go-crosscompile-build windows/386'
+%endif
 /bin/bash -c '. golang-crosscompile/crosscompile.bash; go-crosscompile-build linux/amd64'
 
 %install

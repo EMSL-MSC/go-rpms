@@ -187,8 +187,8 @@ rm -rf %{buildroot}
 %{_sysconfdir}/bash_completion.d/go
 %if %{use_windows}
 %{_bindir}/windows_386
-%{_datadir}/go/crosscompiler
 %endif
+%{_datadir}/go/crosscompiler
 
 
 %files vim

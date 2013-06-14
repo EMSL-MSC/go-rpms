@@ -184,9 +184,9 @@ rm -rf %{buildroot}
 %{_bindir}/8*
 %endif
 %{_bindir}/go*
-%{_bindir}/windows_386
 %{_sysconfdir}/bash_completion.d/go
 %if %{use_windows}
+%{_bindir}/windows_386
 %{_datadir}/go/crosscompiler
 %endif
 
